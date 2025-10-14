@@ -2,6 +2,7 @@ package com.isaiascosta.agendadortarefas.infrastructure.controller;
 
 import com.isaiascosta.agendadortarefas.infrastructure.business.TarefasService;
 import com.isaiascosta.agendadortarefas.infrastructure.business.dto.TarefasDTO;
+import com.isaiascosta.agendadortarefas.infrastructure.enums.StatusNotificacaoEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -41,5 +42,22 @@ public class TarefasController {
    public ResponseEntity<List<TarefasDTO>> buscarTarefasPorEmail(@RequestHeader("Authorization") String token) {
       return ResponseEntity.ok(tarefasService.buscarTarefasPorEmail(token));
 
+   }
+   @DeleteMapping
+   public  ResponseEntity<Void>excluirTarefaPorId(@RequestParam("id") String id){
+      tarefasService.excluirTarefaPorId(id);
+      return ResponseEntity.ok().build();
+
+   }
+   @PatchMapping
+   public  ResponseEntity<TarefasDTO>alterarStatusTarefa(@RequestParam("status") StatusNotificacaoEnum status,
+                                                         @RequestParam("id") String id){
+     return ResponseEntity.ok( tarefasService.alterarStatusTarefa(status, id));
+
+   }
+   @PutMapping
+   public ResponseEntity<TarefasDTO> updateTarefasDTO(@RequestBody TarefasDTO dto,
+                                                      @RequestParam ("id") String id){
+      return  ResponseEntity.ok(tarefasService.updateTarefasDTO(dto,id));
    }
 }
